@@ -22,6 +22,11 @@ export default function Page() {
               <p className="flex items-start gap-3"><Pin className="mt-0.5 h-5 w-5 text-red" /><span>{EVENT.where}<br /><span className="text-white/60">{EVENT.address}</span></span></p>
             </div>
             <p className="mt-6 leading-relaxed text-white/70">{EVENT.body}</p>
+            <dl className="mt-6 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 border-t border-white/10 pt-6">
+              {EVENT.timing.map(([t, v]) => (
+                <div key={t} className="contents"><dt className="font-semibold text-red">{t}</dt><dd className="text-white/85">{v}</dd></div>
+              ))}
+            </dl>
             <div className="mt-8 flex flex-wrap gap-3"><a href={CONTACT.eventSite} target="_blank" rel="noopener noreferrer" className="btn btn-red">Request your seat <ArrowUR /></a><Link href="/membership" className="btn btn-ghost-light">About Membership</Link></div>
           </div>
         </article>

@@ -262,6 +262,14 @@ export const EVENT = {
   address: "1221 N Valley Dr, Manhattan Beach, CA 90266",
   body: "Join Sundae Co-Founder & CEO Josh Stech and fellow Los Angeles real estate operators for dinner and a conversation about market trends, where the industry is heading, and how to build a stronger acquisition business in a harder market. Food and drinks are served. Seats are limited.",
   past: "Previous edition: Sacramento investors dinner at Echo & Rig, September 2026.",
+  // the event itinerary — the timing for the invitation
+  timing: [
+    ["7:00 PM", "Cocktails & Passed Hors d'Oeuvres"],
+    ["7:35 PM", "Josh's Presentation"],
+    ["8:00 PM", "Dinner"],
+    ["9:15 PM", "Rooftop Cocktails"],
+    ["10:30 PM +", "Optional After Party"],
+  ],
 };
 
 export type QA = { q: string; a: string };
