@@ -257,7 +257,7 @@ export const MEMBERSHIP = {
 
 export const EVENT = {
   title: "Private Dinner & Dialogue with Josh Stech",
-  when: "Thursday, October 8, 2026 · 6:00 PM",
+  when: "Thursday, October 8, 2026 · 7:00 PM",
   where: "The Courtyard at Shade Hotel, Manhattan Beach",
   address: "1221 N Valley Dr, Manhattan Beach, CA 90266",
   body: "Join Sundae Co-Founder & CEO Josh Stech and fellow Los Angeles real estate operators for dinner and a conversation about market trends, where the industry is heading, and how to build a stronger acquisition business in a harder market. Food and drinks are served. Seats are limited.",
