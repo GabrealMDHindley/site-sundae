@@ -106,4 +106,7 @@ html.lenis, html.lenis body { height: auto; }
 @media (prefers-reduced-motion: reduce) {
   .marquee, .rise, .mask-line > span, .pulse-dot::after { animation: none !important; }
   [data-reveal], [data-stagger] > * { opacity: 1 !important; transform: none !important; }
+  /* no sticky image swap without motion: show each engine visual inline instead */
+  [data-step-pic] { display: none; }
+  [data-step] > img { display: block !important; }
 }
