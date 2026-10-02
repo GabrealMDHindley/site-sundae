@@ -267,7 +267,6 @@ export const EVENT = {
     ["7:00 PM", "Cocktails & Passed Hors d'Oeuvres"],
     ["7:35 PM", "Josh's Presentation"],
     ["8:00 PM", "Dinner"],
-    ["9:15 PM", "Rooftop Cocktails"],
     ["10:30 PM +", "Optional After Party"],
   ],
 };
