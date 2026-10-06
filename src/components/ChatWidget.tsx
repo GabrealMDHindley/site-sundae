@@ -55,6 +55,9 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [shown, setShown] = useState(false);
+  // Below 1280px the launcher is its 60px icon only (the label expands on hover or keyboard focus), so it never covers
+  // hero copy, event details or form buttons on phones and tablets. Wide screens always show "Ask Sundae".
+  const compact = !open;
   const list = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const msgsRef = useRef<Msg[]>([]);
@@ -115,60 +118,59 @@ export default function ChatWidget() {
   return (
     <>
       <button onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="sundae-chat" aria-label={open ? "Close the Sundae assistant" : "Ask Sundae — open the assistant"}
-        className={`fixed bottom-4 right-4 z-[60] flex items-center gap-2.5 rounded-full bg-ink py-2 pl-2 pr-5 text-white shadow-[0_18px_40px_-14px_rgba(27,20,22,.6)] transition-all duration-500 hover:-translate-y-0.5 md:bottom-6 md:right-6 ${shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"} ${open ? "max-md:hidden" : ""}`}>
-        <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-red">
-          {open ? <Cross className="h-4 w-4" /> : <img src="/brand/sundae-icon.svg" alt="" className="h-10 w-10" />}
-          {!open && <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-ink bg-[#3ccf8e]" />}
+        className={`group fixed bottom-4 right-4 z-[60] flex items-center gap-3 rounded-full bg-blue py-2 pl-2 pr-6 text-white ${compact ? "max-xl:gap-0 max-xl:pr-2 max-xl:hover:gap-3 max-xl:hover:pr-6 max-xl:focus-visible:gap-3 max-xl:focus-visible:pr-6" : ""} shadow-[0_18px_40px_-16px_rgba(28,81,160,.75)] transition-all duration-500 hover:-translate-y-0.5 md:bottom-6 md:right-6 ${shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"} ${open ? "max-md:hidden" : ""}`}>
+        <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-red">
+          {open ? <Cross className="h-5 w-5" /> : <img src="/brand/sundae-icon-red.svg" alt="" className="h-11 w-11" />}
         </span>
-        <span className="text-[0.92rem] font-semibold">{open ? "Close" : "Ask Sundae"}</span>
+        <span className={`max-w-[10rem] overflow-hidden whitespace-nowrap text-[1.0625rem] font-bold transition-[max-width,opacity] duration-500 ${compact ? "max-xl:max-w-0 max-xl:opacity-0 max-xl:group-hover:max-w-[10rem] max-xl:group-hover:opacity-100 max-xl:group-focus-visible:max-w-[10rem] max-xl:group-focus-visible:opacity-100" : ""}`}>{open ? "Close" : "Ask Sundae"}</span>
       </button>
 
       <section id="sundae-chat" role="dialog" aria-label="Sundae assistant" aria-modal="false" data-lenis-prevent
-        className={`fixed z-[70] flex flex-col overflow-hidden border border-line bg-paper shadow-[0_40px_90px_-30px_rgba(27,20,22,.55)] transition-all duration-500 [transition-timing-function:var(--ease-out-expo)] max-md:inset-2 max-md:rounded-[1.75rem] md:bottom-24 md:right-6 md:h-[min(640px,calc(100vh-8rem))] md:w-[400px] md:rounded-[1.75rem] ${open ? "visible translate-y-0 scale-100 opacity-100" : "invisible translate-y-4 scale-[.97] opacity-0"} origin-bottom-right`}>
-        <header className="flex items-center gap-3 border-b border-line bg-white px-5 py-4">
-          <img src="/brand/sundae-icon.svg" alt="" className="h-10 w-10 rounded-full" />
+        className={`fixed z-[70] flex flex-col overflow-hidden border border-gray bg-mist shadow-[0_40px_90px_-30px_rgba(74,74,74,.6)] transition-all duration-500 [transition-timing-function:var(--ease-out-expo)] max-md:inset-2 max-md:rounded-[1.5rem] md:bottom-24 md:right-6 md:h-[min(680px,calc(100vh-8rem))] md:w-[430px] md:rounded-[1.5rem] ${open ? "visible translate-y-0 scale-100 opacity-100" : "invisible translate-y-4 scale-[.97] opacity-0"} origin-bottom-right`}>
+        <header className="flex items-center gap-3 border-b border-gray bg-white px-5 py-4">
+          <img src="/brand/sundae-icon-red.svg" alt="" className="h-10 w-10 rounded-full" />
           <div className="flex-1">
-            <div className="font-semibold leading-tight">Sundae Assistant</div>
-            <div className="flex items-center gap-1.5 text-xs text-muted"><span className="h-1.5 w-1.5 rounded-full bg-[#3ccf8e]" /> Answers from this website, instantly</div>
+            <div className="text-[1.0625rem] font-bold leading-tight">Sundae Assistant</div>
+            <div className="text-base leading-snug">Answers from this website</div>
           </div>
-          {msgs.length > 0 && <button onClick={() => setMsgs([])} className="rounded-full px-2.5 py-1 text-xs text-muted hover:bg-cream">Clear</button>}
-          <button onClick={() => setOpen(false)} className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-cream" aria-label="Close"><Cross /></button>
+          {msgs.length > 0 && <button onClick={() => setMsgs([])} className="rounded-full px-3 py-1.5 text-base font-bold text-blue hover:bg-mist">Clear</button>}
+          <button onClick={() => setOpen(false)} className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-mist" aria-label="Close"><Cross className="h-5 w-5" /></button>
         </header>
 
         <div ref={list} className="flex-1 space-y-4 overflow-y-auto px-5 py-5" aria-live="polite">
-          <div className="max-w-[88%] rounded-2xl rounded-tl-md bg-white px-4 py-3 text-[0.94rem] leading-relaxed shadow-sm ring-1 ring-line">
-            Hi! I’m Sundae’s assistant. Ask me anything about selling your house as-is, how offers and closing work, buying on the marketplace, or Sundae Membership.
+          <div className="max-w-[90%] rounded-2xl rounded-tl-md bg-white px-4 py-3 text-[1.0625rem] leading-relaxed ring-1 ring-gray">
+            Hi! I’m Sundae’s assistant. Ask me anything about selling your house as-is, how offers and closing work, buying on the marketplace or Sundae Membership.
           </div>
           {msgs.length === 0 && (
             <div className="flex flex-wrap gap-2">
-              {sugg.map((s) => <button key={s} onClick={() => send(s)} className="rounded-full border border-line bg-white px-3.5 py-2 text-left text-[0.84rem] transition-colors hover:border-ink">{s}</button>)}
+              {sugg.map((s) => <button key={s} onClick={() => send(s)} className="rounded-full border border-blue bg-white px-4 py-2 text-left text-base font-bold leading-snug text-blue transition-colors hover:bg-mist">{s}</button>)}
             </div>
           )}
           {msgs.map((m, i) => m.role === "user" ? (
-            <div key={i} className="ml-auto max-w-[85%] rounded-2xl rounded-tr-md bg-ink px-4 py-3 text-[0.94rem] leading-relaxed text-white">{m.content}</div>
+            <div key={i} className="ml-auto max-w-[85%] rounded-2xl rounded-tr-md bg-blue px-4 py-3 text-[1.0625rem] leading-relaxed text-white">{m.content}</div>
           ) : (
             <div key={i} className="max-w-[92%]">
-              <div className="rounded-2xl rounded-tl-md bg-white px-4 py-3 text-[0.94rem] leading-relaxed shadow-sm ring-1 ring-line">
-                {m.content ? <Md text={m.content} /> : <span className="inline-flex gap-1 py-1" aria-label="Thinking">{[0, 1, 2].map((d) => <span key={d} className="h-2 w-2 animate-bounce rounded-full bg-faint" style={{ animationDelay: `${d * 0.15}s` }} />)}</span>}
+              <div className="rounded-2xl rounded-tl-md bg-white px-4 py-3 text-[1.0625rem] leading-relaxed ring-1 ring-gray">
+                {m.content ? <Md text={m.content} /> : <span className="inline-flex gap-1 py-1" aria-label="Thinking">{[0, 1, 2].map((d) => <span key={d} className="h-2 w-2 animate-bounce rounded-full bg-slate" style={{ animationDelay: `${d * 0.15}s` }} />)}</span>}
               </div>
               {m.sources && m.sources.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-1.5">
-                  {m.sources.map((s) => <Link key={s.url + s.title} href={s.url} className="rounded-full bg-cream px-2.5 py-1 text-[0.72rem] text-muted hover:text-ink">{s.title}</Link>)}
+                  {m.sources.map((s) => <Link key={s.url + s.title} href={s.url} className="rounded-full border border-gray bg-white px-3 py-1 text-base text-blue underline-offset-4 hover:underline">{s.title}</Link>)}
                 </div>
               )}
             </div>
           ))}
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); send(input); }} className="border-t border-line bg-white p-3">
-          <div className="flex items-end gap-2 rounded-2xl border border-line bg-paper p-1.5 focus-within:border-ink">
+        <form onSubmit={(e) => { e.preventDefault(); send(input); }} className="border-t border-gray bg-white p-3">
+          <div className="flex items-end gap-2 rounded-2xl border border-[rgba(74,74,74,.6)] bg-white p-1.5 focus-within:border-blue">
             <label htmlFor="chat-in" className="sr-only">Your question</label>
             <textarea id="chat-in" ref={inputRef} rows={1} value={input} maxLength={1000} onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); } }}
-              placeholder="Ask about selling, offers, closing…" className="max-h-28 flex-1 resize-none bg-transparent px-2.5 py-2 text-[0.95rem] outline-none" />
-            <button type="submit" disabled={busy || !input.trim()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-red text-white transition-opacity disabled:opacity-35" aria-label="Send"><Arrow /></button>
+              placeholder="Ask about selling, offers, closing…" className="max-h-28 flex-1 resize-none bg-transparent px-2.5 py-2 text-[1.0625rem] outline-none placeholder:text-ink placeholder:opacity-[.82]" />
+            <button type="submit" disabled={busy || !input.trim()} className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue text-white transition-opacity disabled:opacity-40" aria-label="Send"><Arrow /></button>
           </div>
-          <p className="mt-2 flex items-center gap-1 px-1 text-[0.68rem] leading-snug text-faint"><Spark className="h-3 w-3 shrink-0" /> AI assistant trained on this site — it can make mistakes and isn’t legal or financial advice. For an offer, call {CONTACT.sellerPhone}.</p>
+          <p className="mt-2 flex items-start gap-1.5 px-1 text-base leading-snug"><Spark className="mt-1 h-3.5 w-3.5 shrink-0 text-blue" /> <span>AI assistant trained on this site. It can make mistakes and isn’t legal or financial advice. For an offer, call {CONTACT.sellerPhone}.</span></p>
         </form>
       </section>
     </>

@@ -6,11 +6,13 @@ import * as THREE from "three";
 
 // The Sundae marketplace as one moving picture: a home on its lot, a ring of investors
 // bidding around it. Round one — every bid rises. Then the top three advance. Then the
-// highest-and-best offer lights up in Sundae red and travels to the house. Loops.
+// winning offer lights up in Sundae red and travels to the house. Loops.
+// Colors are the Sundae palette on a light ground (Creative Guidelines p.6): blue bids, gray/slate
+// for bids that drop out, red only for the roof and the winning offer. No gold glow, no dark stage.
 const N = 30, R = 2.32, CYCLE = 8;
 // Rig yaw ≈ 0.35 rad and the camera sits at ≈ 0.93 rad in the xz-plane, so local angle ≈ 1.28 faces the viewer.
 const FRONT = 1.28;
-const C = { ink: new THREE.Color("#8a7a7e"), dim: new THREE.Color("#e9ded5"), top: new THREE.Color("#f08ea0"), red: new THREE.Color("#db3d55") };
+const C = { ink: new THREE.Color("#c9d2e0"), dim: new THREE.Color("#e6e6e6"), top: new THREE.Color("#1c51a0"), red: new THREE.Color("#db3d55") };
 export type Phase = 0 | 1 | 2;
 
 function rng(seed: number) { let s = seed * 9301 + 49297; return () => ((s = (s * 9301 + 49297) % 233280) / 233280); }
@@ -23,20 +25,20 @@ function House() {
     g.translate(0, 0, -0.72);
     return g;
   }, []);
-  const glass = <meshStandardMaterial color="#fff2d8" emissive="#ffc77a" emissiveIntensity={0.55} roughness={0.3} />;
+  const glass = <meshStandardMaterial color="#c9d2e0" roughness={0.25} metalness={0.05} />;
   return (
     <group position={[0, 0.09, 0]}>
       <RoundedBox args={[1.5, 1.05, 1.25]} radius={0.035} smoothness={3} position={[0, 0.525, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color="#fffaf4" roughness={0.9} />
+        <meshStandardMaterial color="#ffffff" roughness={0.9} />
       </RoundedBox>
       <mesh geometry={roof} position={[0, 1.05, 0]} castShadow><meshStandardMaterial color="#db3d55" roughness={0.55} /></mesh>
-      <mesh position={[0.46, 1.42, -0.22]} castShadow><boxGeometry args={[0.18, 0.42, 0.18]} /><meshStandardMaterial color="#f1e6dc" roughness={0.9} /></mesh>
-      <mesh position={[0, 0.3, 0.633]}><boxGeometry args={[0.3, 0.56, 0.03]} /><meshStandardMaterial color="#a3002d" roughness={0.6} /></mesh>
-      <mesh position={[0.09, 0.3, 0.652]}><sphereGeometry args={[0.022, 12, 12]} /><meshStandardMaterial color="#f5d7a1" metalness={0.6} roughness={0.3} /></mesh>
+      <mesh position={[0.46, 1.42, -0.22]} castShadow><boxGeometry args={[0.18, 0.42, 0.18]} /><meshStandardMaterial color="#e6e6e6" roughness={0.9} /></mesh>
+      <mesh position={[0, 0.3, 0.633]}><boxGeometry args={[0.3, 0.56, 0.03]} /><meshStandardMaterial color="#1c51a0" roughness={0.6} /></mesh>
+      <mesh position={[0.09, 0.3, 0.652]}><sphereGeometry args={[0.022, 12, 12]} /><meshStandardMaterial color="#ffffff" metalness={0.3} roughness={0.3} /></mesh>
       {[-0.46, 0.46].map((x) => <mesh key={x} position={[x, 0.64, 0.633]}>{<boxGeometry args={[0.3, 0.28, 0.02]} />}{glass}</mesh>)}
       {[-0.3, 0.3].map((z) => <mesh key={z} position={[0.753, 0.62, z]} rotation={[0, Math.PI / 2, 0]}>{<boxGeometry args={[0.26, 0.26, 0.02]} />}{glass}</mesh>)}
-      <mesh position={[0, 0.03, 0.76]} receiveShadow><boxGeometry args={[0.5, 0.06, 0.22]} /><meshStandardMaterial color="#efe2d7" /></mesh>
-      <mesh position={[0, 0.006, 1.22]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[0.34, 0.75]} /><meshStandardMaterial color="#f0e2d6" /></mesh>
+      <mesh position={[0, 0.03, 0.76]} receiveShadow><boxGeometry args={[0.5, 0.06, 0.22]} /><meshStandardMaterial color="#e6e6e6" /></mesh>
+      <mesh position={[0, 0.006, 1.22]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[0.34, 0.75]} /><meshStandardMaterial color="#e6e6e6" /></mesh>
     </group>
   );
 }
@@ -44,9 +46,9 @@ function House() {
 function Tree({ p, s = 1 }: { p: [number, number, number]; s?: number }) {
   return (
     <group position={p} scale={s}>
-      <mesh position={[0, 0.16, 0]} castShadow><cylinderGeometry args={[0.035, 0.05, 0.32, 8]} /><meshStandardMaterial color="#c9ad9c" /></mesh>
-      <mesh position={[0, 0.55, 0]} castShadow><coneGeometry args={[0.3, 0.62, 18]} /><meshStandardMaterial color="#f6bcc5" roughness={0.8} flatShading /></mesh>
-      <mesh position={[0, 0.85, 0]} castShadow><coneGeometry args={[0.21, 0.45, 18]} /><meshStandardMaterial color="#f8cbd2" roughness={0.8} flatShading /></mesh>
+      <mesh position={[0, 0.16, 0]} castShadow><cylinderGeometry args={[0.035, 0.05, 0.32, 8]} /><meshStandardMaterial color="#c9d2e0" /></mesh>
+      <mesh position={[0, 0.55, 0]} castShadow><coneGeometry args={[0.3, 0.62, 18]} /><meshStandardMaterial color="#f4cccc" roughness={0.8} flatShading /></mesh>
+      <mesh position={[0, 0.85, 0]} castShadow><coneGeometry args={[0.21, 0.45, 18]} /><meshStandardMaterial color="#f4cccc" roughness={0.8} flatShading /></mesh>
     </group>
   );
 }
@@ -120,11 +122,11 @@ function Bids({ onPhase, still }: { onPhase?: (p: Phase) => void; still: boolean
     <group>
       {angles.map((a, i) => (
         <group key={i} position={[Math.cos(a) * R, 0, Math.sin(a) * R]}>
-          <mesh position={[0, 0.093, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.09, 20]} /><meshStandardMaterial color="#efe1d6" /></mesh>
+          <mesh position={[0, 0.093, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.09, 20]} /><meshStandardMaterial color="#e6e6e6" /></mesh>
           <group ref={(el) => { bars.current[i] = el; }} position={[0, 0.09, 0]} scale={[1, 0.0001, 1]}>
-            <mesh position={[0, 0.5, 0]} castShadow><cylinderGeometry args={[0.034, 0.034, 1, 14]} /><meshStandardMaterial ref={(el) => { mats.current[i] = el; }} color="#8a7a7e" roughness={0.5} /></mesh>
+            <mesh position={[0, 0.5, 0]} castShadow><cylinderGeometry args={[0.034, 0.034, 1, 14]} /><meshStandardMaterial ref={(el) => { mats.current[i] = el; }} color="#c9d2e0" roughness={0.5} /></mesh>
           </group>
-          <mesh ref={(el) => { caps.current[i] = el; }} position={[0, 0.1, 0]} castShadow><sphereGeometry args={[0.068, 20, 20]} /><meshStandardMaterial color="#8a7a7e" roughness={0.35} /></mesh>
+          <mesh ref={(el) => { caps.current[i] = el; }} position={[0, 0.1, 0]} castShadow><sphereGeometry args={[0.068, 20, 20]} /><meshStandardMaterial color="#c9d2e0" roughness={0.35} /></mesh>
         </group>
       ))}
       <mesh ref={arc}><tubeGeometry /><meshStandardMaterial color="#db3d55" emissive="#db3d55" emissiveIntensity={0.6} /></mesh>
@@ -154,20 +156,20 @@ export default function AuctionScene({ onPhase, active = true }: { onPhase?: (p:
   const small = typeof window !== "undefined" && window.innerWidth < 768;
   return (
     <Canvas flat shadows={!small} dpr={[1, small ? 1.5 : 1.8]} camera={{ position: [6.4, 4.9, 8.6], fov: 33 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-      frameloop={still ? "demand" : active ? "always" : "never"} aria-label="Illustration: investors bid on a home in two rounds and the highest offer is highlighted" role="img">
-      <ambientLight intensity={1.2} color="#fff5ee" />
-      <hemisphereLight args={["#fffaf3", "#f2cdd3", 0.7]} />
-      <directionalLight position={[4, 7.5, 4.5]} intensity={2.0} color="#fff6ea" castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004}
+      frameloop={still ? "demand" : active ? "always" : "never"} aria-label="Illustration: investors bid on a home in two rounds and the winning offer is highlighted" role="img">
+      <ambientLight intensity={1.2} color="#ffffff" />
+      <hemisphereLight args={["#ffffff", "#c9d2e0", 0.7]} />
+      <directionalLight position={[4, 7.5, 4.5]} intensity={2.0} color="#ffffff" castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004}
         shadow-camera-left={-4} shadow-camera-right={4} shadow-camera-top={4} shadow-camera-bottom={-4} shadow-radius={6} />
       <Rig still={still}>
-        <mesh position={[0, 0, 0]} receiveShadow><cylinderGeometry args={[3.05, 3.12, 0.18, 96]} /><meshStandardMaterial color="#f8ece2" roughness={0.95} /></mesh>
-        <mesh position={[0, 0.0905, 0]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[2.98, 3.05, 96]} /><meshStandardMaterial color="#f1d6cd" /></mesh>
+        <mesh position={[0, 0, 0]} receiveShadow><cylinderGeometry args={[3.05, 3.12, 0.18, 96]} /><meshStandardMaterial color="#ffffff" roughness={0.95} /></mesh>
+        <mesh position={[0, 0.0905, 0]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[2.98, 3.05, 96]} /><meshStandardMaterial color="#c9d2e0" /></mesh>
         <House />
         <Tree p={[-1.25, 0.09, -0.85]} s={1.05} />
         <Tree p={[1.3, 0.09, -1.05]} s={0.8} />
         <Tree p={[-1.45, 0.09, 0.75]} s={0.7} />
         <Bids onPhase={onPhase} still={still} />
-        <ContactShadows position={[0, -0.095, 0]} scale={9} blur={2.6} opacity={0.32} far={3} resolution={256} frames={1} color="#5a2430" />
+        <ContactShadows position={[0, -0.095, 0]} scale={9} blur={2.6} opacity={0.32} far={3} resolution={256} frames={1} color="#4a4a4a" />
       </Rig>
     </Canvas>
   );

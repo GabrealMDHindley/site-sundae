@@ -20,11 +20,11 @@ const SECTIONS = [
 export default function Page() {
   return (
     <>
-      <PageHero eyebrow="Licensing & disclosures" title="The fine print, / *in plain view.*" sub="A summary of the Sundae family of companies and the disclosures that may be relevant to you. The authoritative version lives on sundae.com.">
-        <a href="https://sundae.com/disclosures/" target="_blank" rel="noopener noreferrer" className="btn btn-line">Full disclosures on sundae.com <ArrowUR /></a>
+      <PageHero eyebrow="Licensing and disclosures" title="The fine print, / *in plain view.*" sub="A summary of the Sundae family of companies and the disclosures that may be relevant to you. The authoritative version lives on sundae.com.">
+        <a href="https://sundae.com/disclosures/" target="_blank" rel="noopener noreferrer" className="btn btn-outline">Full disclosures on sundae.com <ArrowUR /></a>
       </PageHero>
       <section className="wrap grid max-w-4xl gap-10">
-        {SECTIONS.map((s) => <div key={s.h} data-reveal className="border-t border-line pt-8"><h2 className="display text-2xl">{s.h}</h2>{s.p.map((t) => <p key={t.slice(0, 24)} className="mt-3 leading-relaxed text-muted">{t}</p>)}</div>)}
+        {SECTIONS.map((s) => <div key={s.h} data-reveal className="border-t border-gray pt-8"><h2 className="display h-bar text-[1.5rem]">{s.h}</h2>{s.p.map((t) => <p key={t.slice(0, 24)} className="mt-4 text-lg leading-relaxed">{t}</p>)}</div>)}
       </section>
     </>
   );

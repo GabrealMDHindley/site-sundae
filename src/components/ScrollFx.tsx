@@ -50,9 +50,9 @@ export default function ScrollFx() {
       gsap.utils.toArray<HTMLElement>("[data-lines]").forEach((el) => {
         gsap.fromTo(el.querySelectorAll(".mask-line > span"), { yPercent: 108 }, { yPercent: 0, duration: 1.2, ease: "expo.out", stagger: 0.09, scrollTrigger: { trigger: el, start: "top 86%", once: true } });
       });
-      // words light up as you read (scrubbed)
+      // words light up as you read (scrubbed); fully lit by the time the block reaches mid-screen
       gsap.utils.toArray<HTMLElement>("[data-words]").forEach((el) => {
-        gsap.fromTo(el.querySelectorAll("[data-w]"), { opacity: 0.14 }, { opacity: 1, ease: "none", stagger: 0.1, scrollTrigger: { trigger: el, start: "top 78%", end: "bottom 45%", scrub: 0.6 } });
+        gsap.fromTo(el.querySelectorAll("[data-w]"), { opacity: 0.4 }, { opacity: 1, ease: "none", stagger: 0.1, scrollTrigger: { trigger: el, start: "top 85%", end: "bottom 68%", scrub: 0.6 } });
       });
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
         const amt = Number(el.dataset.parallax || 10);
@@ -87,7 +87,7 @@ export default function ScrollFx() {
           const pics = sec.querySelectorAll<HTMLElement>("[data-step-pic]");
           items.forEach((it, i) => ScrollTrigger.create({ trigger: it, start: "top 60%", end: "bottom 60%", onToggle: (st) => {
             if (!st.isActive) return;
-            items.forEach((x, j) => x.style.opacity = j === i ? "1" : "0.32");
+            // every step stays full-strength #4A4A4A (BRAND-SPEC rules 3 and 10); the swapping visual marks the active step
             pics.forEach((p, j) => { p.style.opacity = j === i ? "1" : "0"; p.style.transform = j === i ? "none" : "translateY(24px) scale(.97)"; });
           } }));
         });

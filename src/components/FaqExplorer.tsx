@@ -17,17 +17,17 @@ export default function FaqExplorer({ sets }: { sets: { key: string; label: stri
   return (
     <div>
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="inline-flex rounded-full border border-line bg-white p-1" role="tablist">
-          {sets.map((s) => <button key={s.key} role="tab" aria-selected={tab === s.key} onClick={() => setTab(s.key)} className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${tab === s.key ? "bg-ink text-white" : "text-muted hover:text-ink"}`}>{s.label}</button>)}
+        <div className="inline-flex rounded-full border border-gray bg-white p-1" role="tablist">
+          {sets.map((s) => <button key={s.key} role="tab" aria-selected={tab === s.key} onClick={() => setTab(s.key)} className={`rounded-full px-6 py-3 text-[1.0625rem] font-bold transition-colors ${tab === s.key ? "bg-blue text-white" : "text-ink hover:text-blue"}`}>{s.label}</button>)}
         </div>
-        <label className="relative md:w-80"><span className="sr-only">Search questions</span><input className="field !rounded-full !py-3 !pl-5" placeholder="Search questions…" value={q} onChange={(e) => setQ(e.target.value)} /></label>
+        <label className="relative md:w-80"><span className="sr-only">Search questions</span><input className="field !rounded-full !py-3 !pl-5" placeholder="Search questions" value={q} onChange={(e) => setQ(e.target.value)} /></label>
       </div>
       <div className="mt-10 grid gap-12">
-        {groups.map((g) => <div key={g.group} className="grid gap-6 lg:grid-cols-[240px_1fr]"><h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-faint">{g.group}</h2><FaqList items={g.items} /></div>)}
+        {groups.map((g) => <div key={g.group} className="grid gap-6 lg:grid-cols-[240px_1fr]"><h2 className="eyebrow pt-5">{g.group}</h2><FaqList items={g.items} /></div>)}
         {!groups.length && (
-          <div className="rounded-[1.5rem] bg-cream p-8 text-center">
-            <p className="text-lg">No questions match “{q}”.</p>
-            <button onClick={() => ask(q)} className="btn btn-red mt-5"><Spark /> Ask the assistant instead</button>
+          <div className="card-mist p-8 text-center">
+            <p className="text-lg">No questions match “{q}.”</p>
+            <button onClick={() => ask(q)} className="btn btn-blue mt-5"><Spark /> Ask the assistant instead</button>
           </div>
         )}
       </div>

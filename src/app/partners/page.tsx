@@ -13,18 +13,19 @@ export default function Page() {
       <section className="wrap grid gap-5 md:grid-cols-3">
         {PARTNERS.map((p, i) => (
           <article key={p.name} data-reveal data-delay={i * 0.08} className="card hover-lift flex flex-col p-8">
-            <div className="flex h-28 items-center justify-center rounded-2xl bg-cream p-5"><img src={p.img} alt={p.name} className="max-h-full w-auto object-contain" loading="lazy" /></div>
-            <h2 className="display mt-6 text-2xl">{p.name}</h2>
-            <p className="mt-3 flex-1 leading-relaxed text-muted">{p.body}</p>
-            <p className="mt-5 text-sm"><span className="font-semibold">Areas serviced:</span> <span className="text-muted">{p.area}</span></p>
-            <a href={p.href} target="_blank" rel="noopener noreferrer" className="btn btn-line mt-6">Learn more <ArrowUR /></a>
+            <div className="flex h-28 items-center justify-center rounded-xl bg-mist p-5"><img src={p.img} alt={p.name} className="max-h-full w-auto object-contain" loading="lazy" /></div>
+            <h2 className="display mt-6 text-[1.5rem]">{p.name}</h2>
+            <p className="mt-3 flex-1 text-lg leading-relaxed">{p.body}</p>
+            <p className="mt-5 text-base"><span className="font-bold">Areas serviced:</span> {p.area}</p>
+            <a href={p.href} target="_blank" rel="noopener noreferrer" className="btn btn-outline mt-6">Learn more <ArrowUR /></a>
           </article>
         ))}
       </section>
       <section className="wrap mt-20">
-        <div data-reveal className="flex flex-wrap items-center justify-between gap-6 rounded-[2rem] bg-ink p-8 text-white md:p-12">
-          <div><h2 className="display text-3xl md:text-4xl">Want to become a Sundae Partner?</h2><p className="mt-2 text-white/70">We’re always looking for new partnerships to support our clients with every step of their move.</p></div>
-          <a href={`mailto:${CONTACT.email}?subject=Partnership%20inquiry`} className="btn btn-red"><Mail /> Get in touch</a>
+        <div data-reveal className="on-blue relative flex flex-wrap items-center justify-between gap-6 overflow-hidden rounded-[1.5rem] bg-blue p-8 text-white md:p-12">
+          <div aria-hidden className="shape-rect pointer-events-none absolute right-4 top-4 h-8 w-8 md:right-5 md:top-5 md:h-9 md:w-9" />
+          <div className="relative pr-8"><h2 className="display text-[1.875rem] md:text-[2.25rem]">Want to become a Sundae Partner?</h2><p className="mt-3 text-lg">We’re always looking for new partnerships to support our clients with every step of their move.</p></div>
+          <a href={`mailto:${CONTACT.email}?subject=Partnership%20inquiry`} className="btn btn-white relative"><Mail /> Get in touch</a>
         </div>
       </section>
     </>

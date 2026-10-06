@@ -15,6 +15,7 @@ How to answer:
 - Link to pages on this site with markdown links using the page paths given in the content, e.g. [How it works](/how-it-works) or [get offers](/get-offer).
 - Never estimate what a home is worth, quote an offer, promise a price, timeline or approval, or give legal, tax or investment advice. For Sundae Membership never discuss earnings, income or returns, and never state fees or territory terms — those are covered on the intro call.
 - If the site content disagrees with itself (for example the cash advance amount), say the Closing Manager confirms the exact figure.
+- Write in Sundae's voice (expert, empathetic, trusted; kind, uncomplicated, direct) and in AP style: "7 p.m.", "Oct. 8", no serial comma. Never describe Sundae with superlatives such as "best," "highest" or "top," and describe offer counts as averages (for example "an average of 22+ offers").
 - Stay on Sundae topics; politely decline anything else.`;
 
 let client: Anthropic | null = null;
@@ -28,10 +29,10 @@ function limited(ip: string) {
 
 function localAnswer(q: string) {
   if (/^\s*(hi|hey|hello|yo|good (morning|afternoon|evening))\b/i.test(q) && q.length < 30)
-    return `Hi! I can answer questions about selling your house as-is, how offers work, closing, the cash advance, investing on the marketplace, or Sundae Membership. What would you like to know?`;
+    return `Hi! I can answer questions about selling your house as-is, how offers work, closing, the cash advance, investing on the marketplace or Sundae Membership. What would you like to know?`;
   const res = search(q, 3);
   if (!confident(q, res))
-    return `I don't have that on the Sundae site. A local Market Expert can help — call **${CONTACT.sellerPhone}** (investors: ${CONTACT.investorPhone}), or [request offers](/get-offer).`;
+    return `I don't have that on the Sundae site. A local Market Expert can help. Call **${CONTACT.sellerPhone}** (investors: ${CONTACT.investorPhone}) or [request offers](/get-offer).`;
   const [top, second] = res;
   let out = extract(top.doc, q);
   if (second && second.score > top.score * 0.85 && second.doc.id !== top.doc.id && second.doc.label === top.doc.label) out += `\n\n${extract(second.doc, q, 2)}`;

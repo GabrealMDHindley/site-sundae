@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   if (!req(b.lastName, 80)) errors.lastName = "Enter your last name";
   if (!req(b.phone, 40) || String(b.phone).replace(/\D/g, "").length < 10) errors.phone = "Enter a 10-digit phone number";
   if (!req(b.email, 160) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(b.email))) errors.email = "Enter a valid email";
-  if (b.terms !== true) errors.terms = "Please accept the Terms of Service & Privacy Policy";
+  if (b.terms !== true) errors.terms = "Please accept the Terms of Service and Privacy Policy";
   if (Object.keys(errors).length) return Response.json({ ok: false, errors }, { status: 422 });
 
   const lead = {

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Instrument_Serif, Inter } from "next/font/google";
+import { Lato, Merriweather } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -7,12 +7,12 @@ import ScrollFx from "@/components/ScrollFx";
 import ChatWidget from "@/components/ChatWidget";
 import { CONTACT, RATING } from "@/content/site";
 
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
-const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+// Sundae brand fonts (Creative Guidelines p.7): Merriweather for headlines and callouts, Lato for everything else.
+const merriweather = Merriweather({ subsets: ["latin"], variable: "--font-merriweather", display: "swap" });
+const lato = Lato({ subsets: ["latin"], weight: ["400", "700", "900"], variable: "--font-lato", display: "swap" });
 
-const title = "Sundae — Sell your house as-is, for the best price";
-const description = "Sell as-is with zero fees paid to Sundae. 20,000+ investors compete for your house on the Sundae Marketplace, so you get the highest off-market price. Close in 10–60 days.";
+const title = "Sundae — Sell your house as-is. When investors compete, homeowners win.";
+const description = "Sell as-is with zero fees paid to Sundae. 20,000+ investors compete for your house on the Sundae Marketplace, so you get competitive cash offers. Close in as little as 10 days or up to 60.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://site-sundae-xi.vercel.app"),
@@ -22,14 +22,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title, description },
   robots: { index: false, follow: false }, // concept rebuild for review — never compete with sundae.com in search
 };
-export const viewport: Viewport = { themeColor: "#fffbf7" };
+export const viewport: Viewport = { themeColor: "#ffffff" };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "RealEstateAgent",
   name: "Sundae",
   url: "https://sundae.com",
-  telephone: CONTACT.sellerPhone,
+  telephone: CONTACT.sellerPhoneLd,
   email: CONTACT.email,
   aggregateRating: { "@type": "AggregateRating", ratingValue: RATING.score, reviewCount: RATING.count },
   sameAs: CONTACT.socials.map((s) => s.href),
@@ -37,9 +37,9 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${instrument.variable} ${inter.variable}`}>
+    <html lang="en" className={`${merriweather.variable} ${lato.variable}`}>
       <body className="min-h-screen overflow-x-clip">
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-5 focus:py-3 focus:font-bold focus:text-white">Skip to content</a>
         <Nav />
         <main id="main">{children}</main>
         <Footer />
